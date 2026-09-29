@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:layout_marginBottom="8dp">
+
+    <!-- Displays the pantry item name -->
+    <TextView
+        android:id="@+id/pitem_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Item Name"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#000000" />
+
+    <!-- Displays the quantity of the pantry item -->
+    <TextView
+        android:id="@+id/pitem_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quantity: 0"
+        android:textSize="16sp"
+        android:textColor="#000000" />
+
+    <!-- Displays the unit of the pantry item -->
+    <TextView
+        android:id="@+id/pitem_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Unit"
+        android:textSize="16sp"
+        android:textColor="#000000" />
+
+    <!-- Displays the expiry date of the pantry item -->
+    <TextView
+        android:id="@+id/pitem_expirydate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Expiry Date"
+        android:textSize="16sp"
+        android:textColor="#000000" />
+
+</LinearLayout>

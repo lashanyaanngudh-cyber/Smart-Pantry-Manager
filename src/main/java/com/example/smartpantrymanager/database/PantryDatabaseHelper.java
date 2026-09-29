@@ -2,9 +2,14 @@ package com.example.smartpantrymanager.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.smartpantrymanager.model.PantryItem;
+
+import java.util.ArrayList;
+import java.util.List;
 public class PantryDatabaseHelper extends SQLiteOpenHelper {
 
     // Database details
@@ -91,8 +96,86 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
 
         // Add the starting recipes
         seedRecipes(db);
+
+        // Add the starting pantry items
+        seedPantryItems(db);
     }
 
+    // Adds the starting pantry items
+    private void seedPantryItems(SQLiteDatabase db) {
+
+        ContentValues values = new ContentValues();
+
+        // Add milk
+        values.put(pantry_name, "Milk");
+        values.put(pantry_quantity, 2);
+        values.put(pantry_unit, "L");
+        values.put(pantry_expiry_date, "2026-10-05");
+        db.insert(pantry_table, null, values);
+
+
+        // Add butter
+        values = new ContentValues();
+        values.put(pantry_name, "Butter");
+        values.put(pantry_quantity, 500);
+        values.put(pantry_unit, "g");
+        values.put(pantry_expiry_date, "2026-10-15");
+        db.insert(pantry_table, null, values);
+
+
+        // Add potatoes
+        values = new ContentValues();
+        values.put(pantry_name, "Potato");
+        values.put(pantry_quantity, 6);
+        values.put(pantry_unit, "piece");
+        values.put(pantry_expiry_date, "2026-10-08");
+        db.insert(pantry_table, null, values);
+
+
+        // Add onions
+        values = new ContentValues();
+        values.put(pantry_name, "Onion");
+        values.put(pantry_quantity, 4);
+        values.put(pantry_unit, "piece");
+        values.put(pantry_expiry_date, "2026-10-10");
+        db.insert(pantry_table, null, values);
+
+
+        // Add tomatoes
+        values = new ContentValues();
+        values.put(pantry_name, "Tomato");
+        values.put(pantry_quantity, 5);
+        values.put(pantry_unit, "piece");
+        values.put(pantry_expiry_date, "2026-10-04");
+        db.insert(pantry_table, null, values);
+
+
+        // Add garlic
+        values = new ContentValues();
+        values.put(pantry_name, "Garlic");
+        values.put(pantry_quantity, 10);
+        values.put(pantry_unit, "clove");
+        values.put(pantry_expiry_date, "2026-10-12");
+        db.insert(pantry_table, null, values);
+
+
+        // Add mushrooms
+        values = new ContentValues();
+        values.put(pantry_name, "Mushrooms");
+        values.put(pantry_quantity, 1);
+        values.put(pantry_unit, "punnet");
+        values.put(pantry_expiry_date, "2026-10-03");
+        db.insert(pantry_table, null, values);
+
+
+        // Add spinach
+        values = new ContentValues();
+        values.put(pantry_name, "Spinach");
+        values.put(pantry_quantity, 800);
+        values.put(pantry_unit, "g");
+        values.put(pantry_expiry_date, "2026-10-02");
+        db.insert(pantry_table, null, values);
+    }
 
     // Adds one recipe
     private long addRecipe(SQLiteDatabase db, String r_name,
@@ -677,6 +760,48 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, r_id, "cream", 250, "ml");
     }
 
+    // Gets all pantry items from the database
+    public List<PantryItem> getAllPantryItems() {
+
+        // List that stores all pantry items
+        List<PantryItem> p_items = new ArrayList<>();
+
+        // Open the database for reading
+        SQLiteDatabase db = getReadableDatabase();
+
+        // Get all rows from the pantry items table
+        Cursor cursor = db.query(
+                pantry_table,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        // Go through each pantry item in the database
+        while (cursor.moveToNext()) {
+
+            // Create one pantry item using the database information
+            PantryItem p_item = new PantryItem(
+                    cursor.getInt(cursor.getColumnIndexOrThrow(pantry_id)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(pantry_name)),
+                    cursor.getDouble(cursor.getColumnIndexOrThrow(pantry_quantity)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(pantry_unit)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(pantry_expiry_date))
+            );
+
+            // Add the pantry item to the list
+            p_items.add(p_item);
+        }
+
+        // Close the cursor
+        cursor.close();
+
+        // Return all pantry items
+        return p_items;
+    }
 
     // Updates the database when the version changes
     @Override
