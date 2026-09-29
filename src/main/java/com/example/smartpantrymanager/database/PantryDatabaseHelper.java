@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+
 import com.example.smartpantrymanager.model.PantryItem;
 
 import java.util.ArrayList;
@@ -801,6 +802,25 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
 
         // Return all pantry items
         return p_items;
+    }
+
+    // Adds a new pantry item to the database
+    public long addPantryItem(String pItem_name, double pItem_quantity,
+                              String pItem_unit, String pItem_expiry_date) {
+
+        // Open the database for writing
+        SQLiteDatabase db = getWritableDatabase();
+
+        // Store the pantry item information
+        ContentValues values = new ContentValues();
+
+        values.put(pantry_name, pItem_name);
+        values.put(pantry_quantity, pItem_quantity);
+        values.put(pantry_unit, pItem_unit);
+        values.put(pantry_expiry_date, pItem_expiry_date);
+
+        // Add the pantry item to the pantry table
+        return db.insert(pantry_table, null, values);
     }
 
     // Updates the database when the version changes

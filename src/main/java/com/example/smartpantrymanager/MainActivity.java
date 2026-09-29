@@ -3,6 +3,12 @@ package com.example.smartpantrymanager;
 import android.app.Activity;
 import android.os.Bundle;
 
+// Used to open another Activity
+import android.content.Intent;
+
+// Used for the Add Ingredient button
+import android.widget.Button;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +25,9 @@ public class MainActivity extends Activity {
 
     // RecyclerView that displays the pantry items
     private RecyclerView pantry_recyclerView;
+
+    // Button used to open the Add Ingredient screen
+    private Button open_add_ing_buttonView;
 
     // List that stores the pantry items
     private List<PantryItem> p_items;
@@ -40,6 +49,16 @@ public class MainActivity extends Activity {
 
         // Connect the RecyclerView to the RecyclerView in activity_main.xml
         pantry_recyclerView = findViewById(R.id.pantry_recyclerView);
+
+        // Connect the Java button to the button in activity_main.xml
+        open_add_ing_buttonView = findViewById(R.id.open_add_ing_button);
+
+        // Open the Add Ingredient screen when the button is clicked
+        open_add_ing_buttonView.setOnClickListener(v -> {
+
+            Intent intent = new Intent(MainActivity.this, AddIngredientActivity.class);
+            startActivity(intent);
+        });
 
         // Make the RecyclerView display items in a vertical list
         pantry_recyclerView.setLayoutManager(new LinearLayoutManager(this));
