@@ -127,19 +127,45 @@ public class AddIngredientActivity extends Activity {
             String pItem_unit = ing_unitView.getText().toString().trim();
             String pItem_expiry_date = ing_expirydateView.getText().toString().trim();
 
-            // Check that the required fields have been completed
-            if (pItem_name.isEmpty() || quantity_text.isEmpty()
-                    || pItem_unit.isEmpty()) {
+            // Check if the ingredient name is empty
+            if (pItem_name.isEmpty()) {
+                ing_nameView.setError("Please enter an ingredient name");
+                ing_nameView.requestFocus();
+                return;
+            }
 
-                Toast.makeText(this,
-                        "Please complete all required fields",
-                        Toast.LENGTH_SHORT).show();
+            // Check if the quantity is empty
+            if (quantity_text.isEmpty()) {
+                ing_quantityView.setError("Please enter a quantity");
+                ing_quantityView.requestFocus();
+                return;
+            }
 
+            // Check if the unit is empty
+            if (pItem_unit.isEmpty()) {
+                ing_unitView.setError("Please enter a unit");
+                ing_unitView.requestFocus();
+                return;
+            }
+
+            // Check if the quantity contains a valid number
+            try {
+                Double.parseDouble(quantity_text);
+            } catch (NumberFormatException e) {
+                ing_quantityView.setError("Please enter a valid quantity");
+                ing_quantityView.requestFocus();
                 return;
             }
 
             // Convert the quantity from text to a number
             double pItem_quantity = Double.parseDouble(quantity_text);
+
+            // Check that the quantity is greater than zero
+            if (pItem_quantity <= 0) {
+                ing_quantityView.setError("Quantity must be greater than 0");
+                ing_quantityView.requestFocus();
+                return;
+            }
 
             // Check if an existing pantry item is being edited
             if (getIntent().hasExtra("pItem_id")) {
@@ -170,8 +196,7 @@ public class AddIngredientActivity extends Activity {
                             Toast.LENGTH_SHORT).show();
                 }
 
-            }
-            else {
+            } else {
 
                 // Add a new pantry item
                 long result = pantry_db.addPantryItem(
