@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <!-- Screen heading -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="30dp" />
+
+    <!-- Alert setting -->
+    <Switch
+        android:id="@+id/switchExpiryAlerts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Expiring-soon alerts"
+        android:textSize="18sp"
+        android:layout_marginBottom="30dp" />
+
+    <!-- Unit heading -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Preferred Unit"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp" />
+
+    <!-- Unit choices -->
+    <Spinner
+        android:id="@+id/spinnerUnit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp" />
+
+    <!-- Save button -->
+    <Button
+        android:id="@+id/buttonSaveSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save Settings" />
+
+</LinearLayout>

@@ -6,7 +6,7 @@ import android.os.Bundle;
 // Used to open another Activity
 import android.content.Intent;
 
-// Used for the Add Ingredient button
+// Used for the screen buttons
 import android.widget.Button;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,6 +32,9 @@ public class MainActivity extends Activity {
     // Button used to open the Suggested Recipes screen
     private Button open_recipes_buttonView;
 
+    // Button used to open the Settings screen
+    private Button open_settings_buttonView;
+
     // List that stores the pantry items
     private List<PantryItem> p_items;
 
@@ -53,30 +56,52 @@ public class MainActivity extends Activity {
         // Connect the RecyclerView to the RecyclerView in activity_main.xml
         pantry_recyclerView = findViewById(R.id.pantry_recyclerView);
 
-        // Connect the Java button to the button in activity_main.xml
+        // Connect the Add Ingredient button
         open_add_ing_buttonView = findViewById(R.id.open_add_ing_button);
 
         // Connect the Suggested Recipes button
         open_recipes_buttonView = findViewById(R.id.open_recipes_button);
 
+        // Connect the Settings button
+        open_settings_buttonView = findViewById(R.id.open_settings_button);
+
         // Open the Add Ingredient screen when the button is clicked
         open_add_ing_buttonView.setOnClickListener(v -> {
 
-            Intent intent = new Intent(MainActivity.this, AddIngredientActivity.class);
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    AddIngredientActivity.class
+            );
+
             startActivity(intent);
         });
 
         // Open the Suggested Recipes screen when the button is clicked
         open_recipes_buttonView.setOnClickListener(v -> {
 
-            Intent intent = new Intent(MainActivity.this,
-                    SuggestedRecipesActivity.class);
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    SuggestedRecipesActivity.class
+            );
+
+            startActivity(intent);
+        });
+
+        // Open the Settings screen when the button is clicked
+        open_settings_buttonView.setOnClickListener(v -> {
+
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    SettingsActivity.class
+            );
 
             startActivity(intent);
         });
 
         // Make the RecyclerView display items in a vertical list
-        pantry_recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        pantry_recyclerView.setLayoutManager(
+                new LinearLayoutManager(this)
+        );
 
         // Get all pantry items from the database
         p_items = dbHelper.getAllPantryItems();
@@ -87,6 +112,7 @@ public class MainActivity extends Activity {
         // Connect the adapter to the RecyclerView
         pantry_recyclerView.setAdapter(pantry_adapter);
     }
+
 
     // Refresh the pantry list when returning to this screen
     @Override
