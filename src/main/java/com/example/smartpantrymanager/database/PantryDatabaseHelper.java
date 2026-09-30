@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 
 import com.example.smartpantrymanager.model.PantryItem;
+import com.example.smartpantrymanager.model.RecipeIngredient;
+import com.example.smartpantrymanager.model.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -802,6 +804,104 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
 
         // Return all pantry items
         return p_items;
+    }
+
+    // Gets all ingredients needed for one recipe
+    public List<RecipeIngredient> getRecipeIngredients(int r_id) {
+
+        // List that stores the recipe ingredients
+        List<RecipeIngredient> rIng_itemList = new ArrayList<>();
+
+        // Open the database for reading
+        SQLiteDatabase db = getReadableDatabase();
+
+        // Get the ingredients that belong to the recipe
+        Cursor cursor = db.query(
+                recipe_ingredient_table,
+                null,
+                recipe_ingredient_recipe_id + " = ?",
+                new String[]{String.valueOf(r_id)},
+                null,
+                null,
+                null
+        );
+
+        // Go through each ingredient found
+        while (cursor.moveToNext()) {
+
+            // Create one recipe ingredient using the database information
+            RecipeIngredient rIng_item = new RecipeIngredient(
+                    cursor.getInt(cursor.getColumnIndexOrThrow(
+                            recipe_ingredient_id)),
+
+                    cursor.getInt(cursor.getColumnIndexOrThrow(
+                            recipe_ingredient_recipe_id)),
+
+                    cursor.getString(cursor.getColumnIndexOrThrow(
+                            recipe_ingredient_name)),
+
+                    cursor.getDouble(cursor.getColumnIndexOrThrow(
+                            recipe_ingredient_quantity)),
+
+                    cursor.getString(cursor.getColumnIndexOrThrow(
+                            recipe_ingredient_unit))
+            );
+
+            // Add the ingredient to the list
+            rIng_itemList.add(rIng_item);
+        }
+
+        // Close the cursor
+        cursor.close();
+
+        // Return the recipe ingredients
+        return rIng_itemList;
+    }
+
+    // Gets all recipes from the database
+    public List<Recipe> getAllRecipes() {
+
+        // List that stores all recipes
+        List<Recipe> r_itemList = new ArrayList<>();
+
+        // Open the database for reading
+        SQLiteDatabase db = getReadableDatabase();
+
+        // Get all rows from the recipes table
+        Cursor cursor = db.query(
+                recipe_table,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        // Go through each recipe in the database
+        while (cursor.moveToNext()) {
+
+            // Create one recipe using the database information
+            Recipe r_item = new Recipe(
+                    cursor.getInt(cursor.getColumnIndexOrThrow(recipe_id)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(recipe_name)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(recipe_instructions))
+            );
+
+            // Get the ingredients that belong to this recipe
+            r_item.setR_ingList(
+                    new ArrayList<>(getRecipeIngredients(r_item.getR_id()))
+            );
+
+            // Add the recipe to the list
+            r_itemList.add(r_item);
+        }
+
+        // Close the cursor
+        cursor.close();
+
+        // Return all recipes
+        return r_itemList;
     }
 
     // Adds a new pantry item to the database
