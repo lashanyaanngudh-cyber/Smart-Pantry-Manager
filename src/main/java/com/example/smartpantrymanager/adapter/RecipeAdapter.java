@@ -13,6 +13,11 @@ import com.example.smartpantrymanager.model.Recipe;
 
 import java.util.List;
 
+import android.content.Context;
+import android.content.Intent;
+
+import com.example.smartpantrymanager.RecipeDetailActivity;
+
 public class RecipeAdapter
         extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
@@ -46,7 +51,22 @@ public class RecipeAdapter
 
         Recipe recipe_item = r_itemList.get(position);
 
+        // Display the recipe name
         holder.recipe_nameText.setText(recipe_item.getR_name());
+
+        // Open the recipe details when a recipe is clicked
+        holder.itemView.setOnClickListener(view -> {
+
+            Context context = view.getContext();
+
+            Intent recipe_intent =
+                    new Intent(context, RecipeDetailActivity.class);
+
+            // Send the selected recipe ID to the detail screen
+            recipe_intent.putExtra("r_id", recipe_item.getR_id());
+
+            context.startActivity(recipe_intent);
+        });
     }
 
 
