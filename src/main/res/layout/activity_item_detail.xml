@@ -3,7 +3,6 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/pantry_cream"
@@ -11,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingStart="20dp"
         android:paddingTop="24dp"
@@ -19,14 +18,14 @@
         android:paddingBottom="30dp">
 
 
-        <!-- Top section with back arrow and screen title -->
+        <!-- Top section -->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="60dp">
 
-            <!-- Arrow used to return to the Pantry screen -->
+            <!-- Returns to the Pantry screen -->
             <TextView
-                android:id="@+id/back_arrow"
+                android:id="@+id/item_detail_back_arrow"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:layout_gravity="start|center_vertical"
@@ -43,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="sans-serif-medium"
-                android:text="Add Item"
+                android:text="Item Details"
                 android:textColor="@color/pantry_text"
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -57,73 +56,72 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
             android:text="Item Name"
-            android:textColor="@color/pantry_text"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+            android:textColor="@color/pantry_secondary_text"
+            android:textSize="14sp" />
 
 
-        <!-- Item name input -->
+        <!-- Editable item name -->
         <EditText
-            android:id="@+id/ing_name"
+            android:id="@+id/item_detail_name"
             android:layout_width="match_parent"
             android:layout_height="58dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:background="@drawable/pantry_item_card"
-            android:hint="e.g. Milk"
+            android:hint="Item name"
             android:inputType="textCapWords"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:singleLine="true"
             android:textColor="@color/pantry_text"
             android:textColorHint="@color/pantry_secondary_text"
-            android:textSize="16sp" />
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
 
         <!-- Quantity label -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="22dp"
             android:text="Quantity"
-            android:textColor="@color/pantry_text"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+            android:textColor="@color/pantry_secondary_text"
+            android:textSize="14sp" />
 
 
-        <!-- Quantity input -->
+        <!-- Editable quantity -->
         <EditText
-            android:id="@+id/ing_quantity"
+            android:id="@+id/item_detail_quantity"
             android:layout_width="match_parent"
             android:layout_height="58dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:background="@drawable/pantry_item_card"
-            android:hint="e.g. 2"
+            android:hint="Quantity"
             android:inputType="numberDecimal"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:singleLine="true"
             android:textColor="@color/pantry_text"
             android:textColorHint="@color/pantry_secondary_text"
-            android:textSize="16sp" />
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
 
         <!-- Unit label -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="22dp"
             android:text="Unit"
-            android:textColor="@color/pantry_text"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+            android:textColor="@color/pantry_secondary_text"
+            android:textSize="14sp" />
 
 
-        <!-- Unit input -->
+        <!-- Editable unit -->
         <EditText
-            android:id="@+id/ing_unit"
+            android:id="@+id/item_detail_unit"
             android:layout_width="match_parent"
             android:layout_height="58dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:background="@drawable/pantry_item_card"
             android:hint="e.g. L, ml, g, kg or piece"
             android:inputType="text"
@@ -132,36 +130,26 @@
             android:singleLine="true"
             android:textColor="@color/pantry_text"
             android:textColorHint="@color/pantry_secondary_text"
-            android:textSize="16sp" />
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
 
         <!-- Expiry date label -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="22dp"
             android:text="Expiry Date"
-            android:textColor="@color/pantry_text"
-            android:textSize="17sp"
-            android:textStyle="bold" />
-
-
-        <!-- Explains that the expiry date is not required -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:text="Optional"
             android:textColor="@color/pantry_secondary_text"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
 
 
-        <!-- Expiry date input -->
+        <!-- Editable expiry date -->
         <EditText
-            android:id="@+id/ing_expirydate"
+            android:id="@+id/item_detail_expiry"
             android:layout_width="match_parent"
             android:layout_height="58dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:background="@drawable/pantry_item_card"
             android:hint="YYYY-MM-DD"
             android:inputType="date"
@@ -170,49 +158,55 @@
             android:singleLine="true"
             android:textColor="@color/pantry_text"
             android:textColorHint="@color/pantry_secondary_text"
-            android:textSize="16sp" />
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
 
-        <!-- Save button -->
-        <Button
-            android:id="@+id/add_ing_button"
+        <!-- Space before buttons -->
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="35dp" />
+
+
+        <!-- Edit and Delete buttons -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="58dp"
-            android:layout_marginTop="34dp"
-            android:backgroundTint="@color/pantry_light_sage"
-            android:text="Save Item"
-            android:textAllCaps="false"
-            android:textColor="@color/pantry_text"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            app:cornerRadius="18dp" />
+            android:orientation="horizontal">
 
 
-        <!--
-        This button is hidden when adding an item.
-        It can still be shown when editing an existing item.
-        -->
-        <Button
-            android:id="@+id/open_delete_ing_button"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="12dp"
-            android:text="Delete Item"
-            android:textAllCaps="false"
-            android:visibility="gone" />
+            <!-- Saves changes to the item -->
+            <Button
+                android:id="@+id/item_detail_edit_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/pantry_light_sage"
+                android:text="Edit"
+                android:textAllCaps="false"
+                android:textColor="@color/pantry_text"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:cornerRadius="18dp" />
 
 
-        <!--
-        Kept because the current Java code may still use this button.
-        The new arrow will replace it visually.
-        -->
-        <Button
-            android:id="@+id/back_pantry_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="Back to Pantry"
-            android:visibility="gone" />
+            <!-- Deletes the item -->
+            <Button
+                android:id="@+id/item_detail_delete_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:text="Delete"
+                android:textAllCaps="false"
+                android:textColor="@color/pantry_text"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/pantry_peach"
+                app:cornerRadius="18dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -1,21 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:layout_marginBottom="8dp"
-    android:background="#EEEEEE">
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/pantry_item_card"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="18dp">
 
-    <!-- Displays the recipe name -->
-    <TextView
-        android:id="@+id/recipe_nameText"
-        android:layout_width="match_parent"
+    <!-- Recipe information -->
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Recipe Name"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="#000000" />
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!-- Recipe name -->
+        <TextView
+            android:id="@+id/recipe_nameText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Recipe Name"
+            android:textColor="@color/pantry_text"
+            android:textSize="19sp"
+            android:textStyle="bold" />
+
+        <!-- Recipe availability -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="All ingredients available"
+            android:textColor="@color/pantry_secondary_text"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+
+    <!-- Shows that the recipe can be opened -->
+    <TextView
+        android:layout_width="40dp"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:text="›"
+        android:textColor="@color/pantry_text"
+        android:textSize="32sp" />
 
 </LinearLayout>

@@ -1,47 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/pantry_item_card"
     android:orientation="vertical"
-    android:padding="12dp"
-    android:layout_marginBottom="8dp">
+    android:padding="16dp">
 
-    <!-- Displays the pantry item name -->
-    <TextView
-        android:id="@+id/pitem_name"
-        android:layout_width="wrap_content"
+    <!-- Top row contains the item name and three-dot button -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Item Name"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="#000000" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-    <!-- Displays the quantity of the pantry item -->
+        <!-- Pantry item name -->
+        <TextView
+            android:id="@+id/pitem_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-medium"
+            android:text="Item Name"
+            android:textColor="@color/pantry_text"
+            android:textSize="19sp"
+            android:textStyle="bold" />
+
+        <!-- Opens the item details screen -->
+        <TextView
+            android:id="@+id/item_options_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="Item options"
+            android:gravity="center"
+            android:text="⋮"
+            android:textColor="@color/pantry_text"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+    <!-- Displays quantity and unit together -->
     <TextView
         android:id="@+id/pitem_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Quantity: 0"
-        android:textSize="16sp"
-        android:textColor="#000000" />
+        android:layout_marginTop="4dp"
+        android:text="Quantity: 0 pieces"
+        android:textColor="@color/pantry_secondary_text"
+        android:textSize="15sp" />
 
-    <!-- Displays the unit of the pantry item -->
+
+    <!-- We keep this because the current adapter uses this ID -->
     <TextView
         android:id="@+id/pitem_unit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Unit"
-        android:textSize="16sp"
-        android:textColor="#000000" />
+        android:visibility="gone" />
 
-    <!-- Displays the expiry date of the pantry item -->
-    <TextView
-        android:id="@+id/pitem_expirydate"
-        android:layout_width="wrap_content"
+
+    <!-- Bottom row contains expiry date and status -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Expiry Date"
-        android:textSize="16sp"
-        android:textColor="#000000" />
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- Pantry item expiry date -->
+        <TextView
+            android:id="@+id/pitem_expirydate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Expiry: 01 Jan 2027"
+            android:textColor="@color/pantry_secondary_text"
+            android:textSize="15sp" />
+
+        <!-- Expiry status -->
+        <TextView
+            android:id="@+id/pitem_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/card_sage"
+            android:paddingStart="12dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="5dp"
+            android:text="GOOD"
+            android:textColor="@color/pantry_text"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -2,7 +2,6 @@ package com.example.smartpantrymanager;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.smartpantrymanager.database.PantryDatabaseHelper;
@@ -17,30 +16,42 @@ public class RecipeDetailActivity extends Activity {
     TextView txtRecipeName;
     TextView txtIngredients;
     TextView txtInstructions;
-    Button btnBack;
 
+    // Back arrow
+    TextView recipe_back_arrowView;
+
+    // Database helper
     PantryDatabaseHelper pantry_dbHelper;
+
+    // Stores the selected recipe
     Recipe selectedRecipe;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_recipe_detail);
 
 
-        // Connect the Java variables to the XML views
+        // Connect the recipe name
         txtRecipeName =
                 findViewById(R.id.txtRecipeName);
 
+
+        // Connect the ingredients
         txtIngredients =
                 findViewById(R.id.txtIngredients);
 
+
+        // Connect the instructions
         txtInstructions =
                 findViewById(R.id.txtInstructions);
 
-        btnBack =
-                findViewById(R.id.btnBack);
+
+        // Connect the back arrow
+        recipe_back_arrowView =
+                findViewById(R.id.recipe_back_arrow);
 
 
         // Create the database helper
@@ -48,11 +59,15 @@ public class RecipeDetailActivity extends Activity {
                 new PantryDatabaseHelper(this);
 
 
-        // Get the recipe ID sent from the suggested recipes screen
-        int r_id = getIntent().getIntExtra("r_id", -1);
+        // Get the recipe ID
+        int r_id =
+                getIntent().getIntExtra(
+                        "r_id",
+                        -1
+                );
 
 
-        // Get all recipes from the database
+        // Get all recipes
         List<Recipe> r_itemList =
                 pantry_dbHelper.getAllRecipes();
 
@@ -63,6 +78,7 @@ public class RecipeDetailActivity extends Activity {
             if (r_item.getR_id() == r_id) {
 
                 selectedRecipe = r_item;
+
                 break;
             }
         }
@@ -73,17 +89,21 @@ public class RecipeDetailActivity extends Activity {
 
             // Display the recipe name
             txtRecipeName.setText(
-                    selectedRecipe.getR_name());
+                    selectedRecipe.getR_name()
+            );
 
 
             // Create the ingredient list
             StringBuilder rIng_text =
                     new StringBuilder();
 
+
+            // Add each ingredient
             for (RecipeIngredient rIng_item :
                     selectedRecipe.getR_ingList()) {
 
-                rIng_text.append("• ")
+                rIng_text
+                        .append("• ")
                         .append(rIng_item.getRIng_quantity())
                         .append(" ")
                         .append(rIng_item.getRIng_unit())
@@ -95,16 +115,22 @@ public class RecipeDetailActivity extends Activity {
 
             // Display the ingredients
             txtIngredients.setText(
-                    rIng_text.toString());
+                    rIng_text.toString()
+            );
 
 
             // Display the recipe instructions
             txtInstructions.setText(
-                    selectedRecipe.getR_instructions());
+                    selectedRecipe.getR_instructions()
+            );
         }
 
 
-        // Go back to the suggested recipes screen
-        btnBack.setOnClickListener(view -> finish());
+        // Go back to the Recipes screen
+        recipe_back_arrowView.setOnClickListener(view -> {
+
+            finish();
+
+        });
     }
 }

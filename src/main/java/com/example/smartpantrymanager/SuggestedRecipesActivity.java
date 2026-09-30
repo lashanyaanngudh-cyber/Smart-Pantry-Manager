@@ -20,86 +20,112 @@ import java.util.List;
 
 public class SuggestedRecipesActivity extends Activity {
 
-    // Variables used on the suggested recipes screen
+    // Variables used on the recipes screen
     RecyclerView recipe_recyclerView;
     PantryDatabaseHelper pantry_dbHelper;
     RecipeMatcher recipe_matcher;
     List<Recipe> matched_rList;
     TextView no_recipesText;
 
-    // Bottom navigation used to move between the main screens
+    // Bottom navigation
     BottomNavigationView bottom_navigationView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_suggested_recipes);
 
-        // Connect the Java variables to the XML views
+
+        // Connect the RecyclerView
         recipe_recyclerView =
                 findViewById(R.id.recipe_recyclerView);
 
+
+        // Connect the no recipes message
         no_recipesText =
                 findViewById(R.id.no_recipesText);
+
 
         // Connect the bottom navigation
         bottom_navigationView =
                 findViewById(R.id.bottom_navigationView);
 
-        // Show Recipes as the selected screen
+
+        // Show Recipes as selected
         bottom_navigationView.setSelectedItemId(
                 R.id.nav_recipes
         );
+
 
         // Create the database helper
         pantry_dbHelper =
                 new PantryDatabaseHelper(this);
 
+
         // Create the recipe matcher
         recipe_matcher =
                 new RecipeMatcher();
 
-        // Get the current pantry items
+
+        // Get the pantry items
         List<PantryItem> pantry_itemList =
                 pantry_dbHelper.getAllPantryItems();
 
-        // Get all recipes from the database
+
+        // Get all recipes
         List<Recipe> r_itemList =
                 pantry_dbHelper.getAllRecipes();
 
-        // Find the recipes that can be made
+
+        // Find recipes that can be made
         matched_rList =
                 recipe_matcher.getMatchedRecipes(
                         r_itemList,
                         pantry_itemList
                 );
 
-        // Set the layout for the RecyclerView
+
+        // Set the RecyclerView layout
         recipe_recyclerView.setLayoutManager(
                 new LinearLayoutManager(this)
         );
 
-        // Check if there are any matching recipes
+
+        // Check if there are matching recipes
         if (matched_rList.isEmpty()) {
 
             // Show the no recipes message
-            no_recipesText.setVisibility(View.VISIBLE);
+            no_recipesText.setVisibility(
+                    View.VISIBLE
+            );
 
-            recipe_recyclerView.setVisibility(View.GONE);
+            recipe_recyclerView.setVisibility(
+                    View.GONE
+            );
 
         } else {
 
             // Hide the no recipes message
-            no_recipesText.setVisibility(View.GONE);
+            no_recipesText.setVisibility(
+                    View.GONE
+            );
 
-            recipe_recyclerView.setVisibility(View.VISIBLE);
+            recipe_recyclerView.setVisibility(
+                    View.VISIBLE
+            );
+
 
             // Display the matching recipes
             RecipeAdapter recipe_adapter =
-                    new RecipeAdapter(matched_rList);
+                    new RecipeAdapter(
+                            matched_rList
+                    );
 
-            recipe_recyclerView.setAdapter(recipe_adapter);
+            recipe_recyclerView.setAdapter(
+                    recipe_adapter
+            );
         }
 
 
@@ -107,42 +133,84 @@ public class SuggestedRecipesActivity extends Activity {
         bottom_navigationView.setOnItemSelectedListener(item -> {
 
             // Get the selected navigation item
-            int item_id = item.getItemId();
+            int item_id =
+                    item.getItemId();
+
+
+            // Open the Home screen
+            if (item_id == R.id.nav_home) {
+
+                Intent intent =
+                        new Intent(
+                                SuggestedRecipesActivity.this,
+                                HomeActivity.class
+                        );
+
+                startActivity(intent);
+
+                finish();
+
+                return true;
+            }
+
 
             // Open the Pantry screen
             if (item_id == R.id.nav_pantry) {
 
-                Intent intent = new Intent(
-                        SuggestedRecipesActivity.this,
-                        MainActivity.class
-                );
+                Intent intent =
+                        new Intent(
+                                SuggestedRecipesActivity.this,
+                                MainActivity.class
+                        );
 
                 startActivity(intent);
+
                 finish();
 
                 return true;
             }
 
+
             // Stay on the Recipes screen
             if (item_id == R.id.nav_recipes) {
+
                 return true;
             }
+
 
             // Open the Settings screen
             if (item_id == R.id.nav_settings) {
 
-                Intent intent = new Intent(
-                        SuggestedRecipesActivity.this,
-                        SettingsActivity.class
-                );
+                Intent intent =
+                        new Intent(
+                                SuggestedRecipesActivity.this,
+                                SettingsActivity.class
+                        );
 
                 startActivity(intent);
+
                 finish();
 
                 return true;
             }
 
+
             return false;
         });
+    }
+
+
+    // Show Recipes as selected when returning
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+        if (bottom_navigationView != null) {
+
+            bottom_navigationView.setSelectedItemId(
+                    R.id.nav_recipes
+            );
+        }
     }
 }

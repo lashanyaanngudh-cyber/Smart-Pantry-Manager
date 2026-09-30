@@ -16,55 +16,74 @@ public class SettingsActivity extends Activity {
 
     // Settings screen components
     private Switch switchExpiryAlerts;
+    private Switch switchLowStockAlerts;
     private Spinner spinnerUnit;
     private Button buttonSaveSettings;
 
-    // Bottom navigation used to move between the main screens
+    // Bottom navigation
     private BottomNavigationView bottom_navigationView;
 
-    // Used to save the user's settings
+    // Used to save the settings
     private SharedPreferences preferences;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_settings);
 
-        // Connect Java variables to XML components
+
+        // Connect the expiry switch
         switchExpiryAlerts =
                 findViewById(R.id.switchExpiryAlerts);
 
+
+        // Connect the low stock switch
+        switchLowStockAlerts =
+                findViewById(R.id.switchLowStockAlerts);
+
+
+        // Connect the unit spinner
         spinnerUnit =
                 findViewById(R.id.spinnerUnit);
 
+
+        // Connect the save button
         buttonSaveSettings =
                 findViewById(R.id.buttonSaveSettings);
+
 
         // Connect the bottom navigation
         bottom_navigationView =
                 findViewById(R.id.bottom_navigationView);
 
-        // Show Settings as the selected screen
+
+        // Show Settings as selected
         bottom_navigationView.setSelectedItemId(
                 R.id.nav_settings
         );
 
-        // Open the saved settings
-        preferences = getSharedPreferences(
-                "PantrySettings",
-                MODE_PRIVATE
-        );
 
-        // Unit options shown in the Spinner
+        // Open the saved settings
+        preferences =
+                getSharedPreferences(
+                        "PantrySettings",
+                        MODE_PRIVATE
+                );
+
+
+        // Unit options
         String[] units = {
                 "Grams",
                 "Kilograms",
                 "Millilitres",
-                "Litres"
+                "Litres",
+                "Pieces"
         };
 
-        // Creates the Spinner list
+
+        // Create the unit list
         ArrayAdapter<String> unitAdapter =
                 new ArrayAdapter<>(
                         this,
@@ -72,94 +91,150 @@ public class SettingsActivity extends Activity {
                         units
                 );
 
-        // Sets the layout for the Spinner options
+
+        // Set the Spinner layout
         unitAdapter.setDropDownViewResource(
                 android.R.layout.simple_spinner_dropdown_item
         );
 
-        spinnerUnit.setAdapter(unitAdapter);
 
-        // Load previously saved settings
+        spinnerUnit.setAdapter(
+                unitAdapter
+        );
+
+
+        // Load the saved settings
         loadSettings();
 
-        // Save settings when button is clicked
+
+        // Save the settings
         buttonSaveSettings.setOnClickListener(view -> {
+
             saveSettings();
+
         });
 
 
         // Move between the main screens
         bottom_navigationView.setOnItemSelectedListener(item -> {
 
-            // Get the selected navigation item
-            int item_id = item.getItemId();
+            // Get the selected item
+            int item_id =
+                    item.getItemId();
+
+
+            // Open the Home screen
+            if (item_id == R.id.nav_home) {
+
+                Intent intent =
+                        new Intent(
+                                SettingsActivity.this,
+                                HomeActivity.class
+                        );
+
+                startActivity(intent);
+
+                finish();
+
+                return true;
+            }
+
 
             // Open the Pantry screen
             if (item_id == R.id.nav_pantry) {
 
-                Intent intent = new Intent(
-                        SettingsActivity.this,
-                        MainActivity.class
-                );
+                Intent intent =
+                        new Intent(
+                                SettingsActivity.this,
+                                MainActivity.class
+                        );
 
                 startActivity(intent);
+
                 finish();
 
                 return true;
             }
 
-            // Open the Suggested Recipes screen
+
+            // Open the Recipes screen
             if (item_id == R.id.nav_recipes) {
 
-                Intent intent = new Intent(
-                        SettingsActivity.this,
-                        SuggestedRecipesActivity.class
-                );
+                Intent intent =
+                        new Intent(
+                                SettingsActivity.this,
+                                SuggestedRecipesActivity.class
+                        );
 
                 startActivity(intent);
+
                 finish();
 
                 return true;
             }
+
 
             // Stay on the Settings screen
             if (item_id == R.id.nav_settings) {
+
                 return true;
             }
+
 
             return false;
         });
     }
 
 
-    // Save the user's settings
+    // Save the settings
     private void saveSettings() {
 
-        // Get the values selected by the user
+        // Get the expiry alert setting
         boolean expiryAlerts =
                 switchExpiryAlerts.isChecked();
 
+
+        // Get the low stock alert setting
+        boolean lowStockAlerts =
+                switchLowStockAlerts.isChecked();
+
+
+        // Get the selected unit
         int selectedUnit =
                 spinnerUnit.getSelectedItemPosition();
+
 
         // Open the settings editor
         SharedPreferences.Editor editor =
                 preferences.edit();
 
-        // Save the selected settings
+
+        // Save expiry alerts
         editor.putBoolean(
                 "expiryAlerts",
                 expiryAlerts
         );
 
+
+        // Save low stock alerts
+        editor.putBoolean(
+                "lowStockAlerts",
+                lowStockAlerts
+        );
+
+
+        // Save the selected unit
         editor.putInt(
                 "selectedUnit",
                 selectedUnit
         );
 
+
+        // Save the changes
         editor.apply();
 
-        // Tell the user the settings were saved
+
+        // Show saved message
         Toast.makeText(
                 this,
                 "Settings saved",
@@ -168,25 +243,59 @@ public class SettingsActivity extends Activity {
     }
 
 
-    // Load the user's saved settings
+    // Load the saved settings
     private void loadSettings() {
 
-        // Get the saved alert setting
+        // Get the expiry alert setting
         boolean expiryAlerts =
                 preferences.getBoolean(
                         "expiryAlerts",
                         true
                 );
 
-        // Get the saved unit
+
+        // Get the low stock alert setting
+        boolean lowStockAlerts =
+                preferences.getBoolean(
+                        "lowStockAlerts",
+                        true
+                );
+
+
+        // Get the selected unit
         int selectedUnit =
                 preferences.getInt(
                         "selectedUnit",
                         0
                 );
 
-        // Display the saved settings
-        switchExpiryAlerts.setChecked(expiryAlerts);
-        spinnerUnit.setSelection(selectedUnit);
+
+        // Show the saved settings
+        switchExpiryAlerts.setChecked(
+                expiryAlerts
+        );
+
+        switchLowStockAlerts.setChecked(
+                lowStockAlerts
+        );
+
+        spinnerUnit.setSelection(
+                selectedUnit
+        );
+    }
+
+
+    // Keep Settings selected
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+        if (bottom_navigationView != null) {
+
+            bottom_navigationView.setSelectedItemId(
+                    R.id.nav_settings
+            );
+        }
     }
 }

@@ -10,4 +10,9 @@
     <color name="pantry_text">#252822</color>
     <color name="pantry_secondary_text">#62695E</color>
     <color name="pantry_card">#FAF8F2</color>
+
+    <!-- Colours used for pantry item status text -->
+    <color name="status_good">#52624B</color>
+    <color name="status_expiring">#9A5B3E</color>
+    <color name="status_expired">#9B4A4A</color>
 </resources>

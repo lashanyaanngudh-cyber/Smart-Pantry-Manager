@@ -5,42 +5,64 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp">
+    android:background="@color/pantry_cream"
+    android:orientation="vertical">
 
-    <!-- Displays the screen heading -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Suggested Recipes"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="#000000" />
-
-    <!-- Displays a message when there are no matching recipes -->
-    <TextView
-        android:id="@+id/no_recipesText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="No recipes match your pantry yet - add more ingredients."
-        android:textSize="16sp"
-        android:textColor="#000000"
-        android:visibility="gone" />
-
-    <!-- Displays the recipes that can be made -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recipe_recyclerView"
+    <!-- Main content -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="16dp" />
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingTop="24dp"
+        android:paddingEnd="20dp">
 
-    <!-- Bottom navigation used to move between the main screens -->
+        <!-- Screen heading -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="Recipes"
+            android:textColor="@color/pantry_text"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+
+        <!-- No recipes message -->
+        <TextView
+            android:id="@+id/no_recipesText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:text="No recipes match your pantry yet. Add more ingredients."
+            android:textColor="@color/pantry_secondary_text"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+
+        <!-- Suggested recipes -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recipe_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="24dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+
+    <!-- Bottom navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/pantry_sage"
+        app:itemIconTint="@color/pantry_text"
+        app:itemTextColor="@color/pantry_text"
+        app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_navigation_menu" />
 
 </LinearLayout>
