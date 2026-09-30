@@ -6,18 +6,18 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-
 import com.example.smartpantrymanager.model.PantryItem;
 import com.example.smartpantrymanager.model.RecipeIngredient;
 import com.example.smartpantrymanager.model.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;
+
 public class PantryDatabaseHelper extends SQLiteOpenHelper {
 
     // Database details
     private static final String database_name = "smart_pantry_management.db";
-    private static final int database_version = 1;
+    private static final int database_version = 2;
 
 
     // Pantry Items table
@@ -104,81 +104,290 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         seedPantryItems(db);
     }
 
+
     // Adds the starting pantry items
     private void seedPantryItems(SQLiteDatabase db) {
-
-        ContentValues values = new ContentValues();
-
-        // Add milk
-        values.put(pantry_name, "Milk");
-        values.put(pantry_quantity, 2);
-        values.put(pantry_unit, "L");
-        values.put(pantry_expiry_date, "2026-10-05");
-        db.insert(pantry_table, null, values);
+            ContentValues values = new ContentValues();
 
 
-        // Add butter
-        values = new ContentValues();
-        values.put(pantry_name, "Butter");
-        values.put(pantry_quantity, 500);
-        values.put(pantry_unit, "g");
-        values.put(pantry_expiry_date, "2026-10-15");
-        db.insert(pantry_table, null, values);
+            // Add milk
+            values.put(pantry_name, "Milk");
+            values.put(pantry_quantity, 2);
+            values.put(pantry_unit, "L");
+            values.put(pantry_expiry_date, "2026-10-05");
+            db.insert(pantry_table, null, values);
 
 
-        // Add potatoes
-        values = new ContentValues();
-        values.put(pantry_name, "Potato");
-        values.put(pantry_quantity, 6);
-        values.put(pantry_unit, "piece");
-        values.put(pantry_expiry_date, "2026-10-08");
-        db.insert(pantry_table, null, values);
+            // Add butter
+            values = new ContentValues();
+            values.put(pantry_name, "Butter");
+            values.put(pantry_quantity, 500);
+            values.put(pantry_unit, "g");
+            values.put(pantry_expiry_date, "2026-10-15");
+            db.insert(pantry_table, null, values);
 
 
-        // Add onions
-        values = new ContentValues();
-        values.put(pantry_name, "Onion");
-        values.put(pantry_quantity, 4);
-        values.put(pantry_unit, "piece");
-        values.put(pantry_expiry_date, "2026-10-10");
-        db.insert(pantry_table, null, values);
+            // Add potatoes
+            values = new ContentValues();
+            values.put(pantry_name, "Potato");
+            values.put(pantry_quantity, 10);
+            values.put(pantry_unit, "piece");
+            values.put(pantry_expiry_date, "2026-10-08");
+            db.insert(pantry_table, null, values);
 
 
-        // Add tomatoes
-        values = new ContentValues();
-        values.put(pantry_name, "Tomato");
-        values.put(pantry_quantity, 5);
-        values.put(pantry_unit, "piece");
-        values.put(pantry_expiry_date, "2026-10-04");
-        db.insert(pantry_table, null, values);
+            // Add onions
+            values = new ContentValues();
+            values.put(pantry_name, "Onion");
+            values.put(pantry_quantity, 10);
+            values.put(pantry_unit, "piece");
+            values.put(pantry_expiry_date, "2026-10-10");
+            db.insert(pantry_table, null, values);
 
 
-        // Add garlic
-        values = new ContentValues();
-        values.put(pantry_name, "Garlic");
-        values.put(pantry_quantity, 10);
-        values.put(pantry_unit, "clove");
-        values.put(pantry_expiry_date, "2026-10-12");
-        db.insert(pantry_table, null, values);
+            // Add tomatoes
+            values = new ContentValues();
+            values.put(pantry_name, "Tomato");
+            values.put(pantry_quantity, 15);
+            values.put(pantry_unit, "piece");
+            values.put(pantry_expiry_date, "2026-10-04");
+            db.insert(pantry_table, null, values);
 
 
-        // Add mushrooms
-        values = new ContentValues();
-        values.put(pantry_name, "Mushrooms");
-        values.put(pantry_quantity, 1);
-        values.put(pantry_unit, "punnet");
-        values.put(pantry_expiry_date, "2026-10-03");
-        db.insert(pantry_table, null, values);
+            // Add garlic cloves
+            values = new ContentValues();
+            values.put(pantry_name, "Garlic");
+            values.put(pantry_quantity, 20);
+            values.put(pantry_unit, "clove");
+            values.put(pantry_expiry_date, "2026-10-12");
+            db.insert(pantry_table, null, values);
 
 
-        // Add spinach
-        values = new ContentValues();
-        values.put(pantry_name, "Spinach");
-        values.put(pantry_quantity, 800);
-        values.put(pantry_unit, "g");
-        values.put(pantry_expiry_date, "2026-10-02");
-        db.insert(pantry_table, null, values);
+            // Add crushed garlic
+            values = new ContentValues();
+            values.put(pantry_name, "Crushed Garlic");
+            values.put(pantry_quantity, 150);
+            values.put(pantry_unit, "g");
+            values.put(pantry_expiry_date, "2026-10-12");
+            db.insert(pantry_table, null, values);
+
+
+            // Add mushrooms
+            values = new ContentValues();
+            values.put(pantry_name, "Mushrooms");
+            values.put(pantry_quantity, 700);
+            values.put(pantry_unit, "g");
+            values.put(pantry_expiry_date, "2026-10-03");
+            db.insert(pantry_table, null, values);
+
+
+            // Add spinach
+            values = new ContentValues();
+            values.put(pantry_name, "Spinach");
+            values.put(pantry_quantity, 800);
+            values.put(pantry_unit, "g");
+            values.put(pantry_expiry_date, "2026-10-02");
+            db.insert(pantry_table, null, values);
+
+
+            // Add cooking oil
+            values = new ContentValues();
+            values.put(pantry_name, "Cooking Oil");
+            values.put(pantry_quantity, 1);
+            values.put(pantry_unit, "L");
+            values.put(pantry_expiry_date, "2027-03-20");
+            db.insert(pantry_table, null, values);
+
+
+            // Add masala
+            values = new ContentValues();
+            values.put(pantry_name, "Masala");
+            values.put(pantry_quantity, 250);
+            values.put(pantry_unit, "g");
+            values.put(pantry_expiry_date, "2027-04-15");
+            db.insert(pantry_table, null, values);
+
+
+            // Add turmeric
+            values = new ContentValues();
+            values.put(pantry_name, "Turmeric");
+            values.put(pantry_quantity, 100);
+            values.put(pantry_unit, "g");
+            values.put(pantry_expiry_date, "2027-05-10");
+            db.insert(pantry_table, null, values);
+
+
+            // Add cumin seeds
+            values = new ContentValues();
+            values.put(pantry_name, "Cumin Seeds");
+            values.put(pantry_quantity, 100);
+            values.put(pantry_unit, "g");
+            values.put(pantry_expiry_date, "2027-05-10");
+            db.insert(pantry_table, null, values);
+
+
+            // Add mustard seeds
+            values = new ContentValues();
+            values.put(pantry_name, "Mustard Seeds");
+            values.put(pantry_quantity, 100);
+            values.put(pantry_unit, "g");
+            values.put(pantry_expiry_date, "2027-05-10");
+            db.insert(pantry_table, null, values);
+
+
+            // Add green chilli
+            values = new ContentValues();
+            values.put(pantry_name, "Green Chilli");
+            values.put(pantry_quantity, 10);
+            values.put(pantry_unit, "piece");
+            values.put(pantry_expiry_date, "2026-10-05");
+            db.insert(pantry_table, null, values);
+
+
+            // Add curry leaves
+            values = new ContentValues();
+            values.put(pantry_name, "Curry Leaves");
+            values.put(pantry_quantity, 10);
+            values.put(pantry_unit, "sprig");
+            values.put(pantry_expiry_date, "2026-10-05");
+            db.insert(pantry_table, null, values);
+
+
+            // Add bay leaves
+            values = new ContentValues();
+            values.put(pantry_name, "Bay Leaf");
+            values.put(pantry_quantity, 10);
+            values.put(pantry_unit, "piece");
+            values.put(pantry_expiry_date, "2027-03-15");
+            db.insert(pantry_table, null, values);
+
+
+            // Add coriander cumin powder
+            values = new ContentValues();
+            values.put(pantry_name, "Coriander Cumin Powder");
+            values.put(pantry_quantity, 100);
+            values.put(pantry_unit, "g");
+            values.put(pantry_expiry_date, "2027-04-20");
+            db.insert(pantry_table, null, values);
+
+
+            // Add salt
+            values = new ContentValues();
+            values.put(pantry_name, "Salt");
+            values.put(pantry_quantity, 500);
+            values.put(pantry_unit, "g");
+            values.put(pantry_expiry_date, "2028-01-01");
+            db.insert(pantry_table, null, values);
+
+
+            // Add sugar
+            values = new ContentValues();
+            values.put(pantry_name, "Sugar");
+            values.put(pantry_quantity, 500);
+            values.put(pantry_unit, "g");
+            values.put(pantry_expiry_date, "2027-10-01");
+            db.insert(pantry_table, null, values);
+
+
+            // Add flour
+            values = new ContentValues();
+            values.put(pantry_name, "Flour");
+            values.put(pantry_quantity, 1);
+            values.put(pantry_unit, "kg");
+            values.put(pantry_expiry_date, "2027-02-15");
+            db.insert(pantry_table, null, values);
+
+
+            // Add cream
+            values = new ContentValues();
+            values.put(pantry_name, "Cream");
+            values.put(pantry_quantity, 1);
+            values.put(pantry_unit, "L");
+            values.put(pantry_expiry_date, "2026-10-08");
+            db.insert(pantry_table, null, values);
+
+
+            // Add cheese
+            values = new ContentValues();
+            values.put(pantry_name, "Cheese");
+            values.put(pantry_quantity, 500);
+            values.put(pantry_unit, "g");
+            values.put(pantry_expiry_date, "2026-10-20");
+            db.insert(pantry_table, null, values);
+
+
+            // Add black pepper
+            values = new ContentValues();
+            values.put(pantry_name, "Black Pepper");
+            values.put(pantry_quantity, 100);
+            values.put(pantry_unit, "g");
+            values.put(pantry_expiry_date, "2027-06-01");
+            db.insert(pantry_table, null, values);
+
+
+            // Add parsley
+            values = new ContentValues();
+            values.put(pantry_name, "Parsley");
+            values.put(pantry_quantity, 100);
+            values.put(pantry_unit, "g");
+            values.put(pantry_expiry_date, "2026-10-07");
+            db.insert(pantry_table, null, values);
+
+
+            // Add green beans
+            values = new ContentValues();
+            values.put(pantry_name, "Green Beans");
+            values.put(pantry_quantity, 500);
+            values.put(pantry_unit, "g");
+            values.put(pantry_expiry_date, "2026-10-06");
+            db.insert(pantry_table, null, values);
+
+
+            // Add cinnamon sticks
+            values = new ContentValues();
+            values.put(pantry_name, "Cinnamon Stick");
+            values.put(pantry_quantity, 10);
+            values.put(pantry_unit, "piece");
+            values.put(pantry_expiry_date, "2027-08-01");
+            db.insert(pantry_table, null, values);
+
+
+            // Add cardamom
+            values = new ContentValues();
+            values.put(pantry_name, "Cardamom");
+            values.put(pantry_quantity, 20);
+            values.put(pantry_unit, "piece");
+            values.put(pantry_expiry_date, "2027-08-01");
+            db.insert(pantry_table, null, values);
+
+
+            // Add star anise
+            values = new ContentValues();
+            values.put(pantry_name, "Star Anise");
+            values.put(pantry_quantity, 10);
+            values.put(pantry_unit, "piece");
+            values.put(pantry_expiry_date, "2027-08-01");
+            db.insert(pantry_table, null, values);
+
+
+            // Add cloves
+            values = new ContentValues();
+            values.put(pantry_name, "Cloves");
+            values.put(pantry_quantity, 20);
+            values.put(pantry_unit, "piece");
+            values.put(pantry_expiry_date, "2027-08-01");
+            db.insert(pantry_table, null, values);
+
+
+            // Add dried chilli
+            values = new ContentValues();
+            values.put(pantry_name, "Dried Chilli");
+            values.put(pantry_quantity, 10);
+            values.put(pantry_unit, "piece");
+            values.put(pantry_expiry_date, "2027-02-01");
+            db.insert(pantry_table, null, values);
     }
+
 
     // Adds one recipe
     private long addRecipe(SQLiteDatabase db, String r_name,
@@ -216,7 +425,6 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         long r_id;
 
 
-
         // Recipe 1: Mac and Cheese
 
         r_id = addRecipe(db,
@@ -236,7 +444,6 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, r_id, "flour", 2, "tbsp");
         addRecipeIngredient(db, r_id, "aromat", 1, "tsp");
         addRecipeIngredient(db, r_id, "cheddar cheese", 3, "cup");
-
 
 
         // Recipe 2: Baked Spicy Mushroom and Spinach Rigatoni
@@ -275,7 +482,6 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, r_id, "vegetable stock cube", 1, "piece");
 
 
-
         // Recipe 3: Butter Bean and Potato Curry
 
         r_id = addRecipe(db,
@@ -305,7 +511,6 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, r_id, "turmeric", 1, "tsp");
         addRecipeIngredient(db, r_id, "garlic", 4, "clove");
         addRecipeIngredient(db, r_id, "butter", 1, "tbsp");
-
 
 
         // Recipe 4: Durban Style Mutton Curry
@@ -342,7 +547,6 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, r_id, "cooking oil", 0.25, "cup");
 
 
-
         // Recipe 5: Durban Style Tomato Chutney
 
         r_id = addRecipe(db,
@@ -362,7 +566,6 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, r_id, "cooking oil", 3, "tbsp");
         addRecipeIngredient(db, r_id, "turmeric", 0.75, "tsp");
         addRecipeIngredient(db, r_id, "masala", 1.5, "tsp");
-
 
 
         // Recipe 6: Durban Style Chicken Curry
@@ -386,7 +589,6 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, r_id, "masala", 1, "tbsp");
         addRecipeIngredient(db, r_id, "water", 1, "cup");
         addRecipeIngredient(db, r_id, "potato", 3, "piece");
-
 
 
         // Recipe 7: Lamb Stew
@@ -416,30 +618,28 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, r_id, "cornstarch", 1, "tsp");
 
 
-
         // Recipe 8: Mushroom Curry
 
         r_id = addRecipe(db,
                 "Mushroom Curry",
-                "1. Cook chilli, bay leaf, cumin seeds, curry leaves, onion and garlic.\n" +
+                "1. Cook chilli, bay leaf, cumin seeds, curry leaves, onion and crushed garlic.\n" +
                         "2. Add turmeric, coriander cumin powder and masala.\n" +
                         "3. Add tomato and cook until soft.\n" +
                         "4. Add mushrooms and mix well.\n" +
                         "5. Cover and cook until the mushrooms are tender.\n" +
                         "6. Garnish with coriander.");
 
-        addRecipeIngredient(db, r_id, "mushrooms", 1, "punnet");
+        addRecipeIngredient(db, r_id, "mushrooms", 500, "g");
         addRecipeIngredient(db, r_id, "onion", 0.5, "piece");
         addRecipeIngredient(db, r_id, "green chilli", 1, "piece");
         addRecipeIngredient(db, r_id, "bay leaf", 1, "piece");
-        addRecipeIngredient(db, r_id, "garlic", 1, "tsp");
+        addRecipeIngredient(db, r_id, "crushed garlic", 5, "g");
         addRecipeIngredient(db, r_id, "curry leaves", 1, "sprig");
         addRecipeIngredient(db, r_id, "cumin seeds", 0.5, "tsp");
         addRecipeIngredient(db, r_id, "turmeric", 0.5, "tsp");
         addRecipeIngredient(db, r_id, "coriander cumin powder", 0.5, "tsp");
         addRecipeIngredient(db, r_id, "masala", 1, "tbsp");
         addRecipeIngredient(db, r_id, "tomato", 1, "piece");
-
 
 
         // Recipe 9: Green Bean Curry
@@ -468,7 +668,7 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
 
         r_id = addRecipe(db,
                 "Spicy Creamy Prawns",
-                "1. Season the prawns with salt, pepper, masala, garlic, chilli oil and lemon juice.\n" +
+                "1. Season the prawns with salt, pepper, masala, crushed garlic, chilli oil and lemon juice.\n" +
                         "2. Add parsley and allow the prawns to marinate.\n" +
                         "3. Fry the prawns for 2 to 3 minutes on each side.\n" +
                         "4. Add sliced garlic while cooking the second batch.\n" +
@@ -481,7 +681,7 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, r_id, "black pepper", 1, "tsp");
         addRecipeIngredient(db, r_id, "chilli oil", 0.33, "cup");
         addRecipeIngredient(db, r_id, "masala", 2, "tsp");
-        addRecipeIngredient(db, r_id, "garlic", 1, "tsp");
+        addRecipeIngredient(db, r_id, "crushed garlic", 5, "g");
         addRecipeIngredient(db, r_id, "orange pepper", 1, "tsp");
         addRecipeIngredient(db, r_id, "parsley", 1, "tbsp");
         addRecipeIngredient(db, r_id, "lemon juice", 0.25, "cup");
@@ -489,8 +689,7 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, r_id, "chilli sauce", 0.5, "cup");
         addRecipeIngredient(db, r_id, "cream", 400, "ml");
         addRecipeIngredient(db, r_id, "water", 0.25, "cup");
-        addRecipeIngredient(db, r_id, "garlic cloves", 6, "clove");
-
+        addRecipeIngredient(db, r_id, "garlic", 6, "clove");
 
 
         // Recipe 11: Aloo Fry
@@ -515,7 +714,6 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, r_id, "green chilli", 2, "piece");
 
 
-
         // Recipe 12: Smashed Sweet Butternut
 
         r_id = addRecipe(db,
@@ -534,14 +732,13 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, r_id, "salt", 1, "tsp");
 
 
-
         // Recipe 13: Creamy Spinach
 
         r_id = addRecipe(db,
                 "Creamy Spinach",
                 "1. Steam the spinach until soft and drain it.\n" +
                         "2. Melt butter in a pot.\n" +
-                        "3. Add garlic and onion and cook until soft.\n" +
+                        "3. Add crushed garlic and onion and cook until soft.\n" +
                         "4. Add flour and stir for 2 to 3 minutes.\n" +
                         "5. Slowly add milk while stirring.\n" +
                         "6. Add cheese and stir until melted.\n" +
@@ -550,7 +747,7 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
 
         addRecipeIngredient(db, r_id, "spinach", 800, "g");
         addRecipeIngredient(db, r_id, "butter", 4, "tbsp");
-        addRecipeIngredient(db, r_id, "garlic", 4, "tsp");
+        addRecipeIngredient(db, r_id, "crushed garlic", 20, "g");
         addRecipeIngredient(db, r_id, "onion", 1, "piece");
         addRecipeIngredient(db, r_id, "black pepper", 1, "tsp");
         addRecipeIngredient(db, r_id, "salt", 1, "tsp");
@@ -559,14 +756,13 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, r_id, "milk", 2, "cup");
 
 
-
         // Recipe 14: Fish Curry
 
         r_id = addRecipe(db,
                 "Fish Curry",
                 "1. Cook mustard seeds and fenugreek seeds in a large pot.\n" +
                         "2. Add onion, chilli and curry leaves and cook until lightly brown.\n" +
-                        "3. Add garlic and the ground spices.\n" +
+                        "3. Add crushed garlic and the ground spices.\n" +
                         "4. Add tomatoes and tomato paste and cook well.\n" +
                         "5. Add brinjal and cook for 5 to 7 minutes.\n" +
                         "6. Add tamarind water and cook for another 5 to 10 minutes.\n" +
@@ -574,7 +770,7 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
                         "8. Garnish with coriander.");
 
         addRecipeIngredient(db, r_id, "fish", 1.2, "kg");
-        addRecipeIngredient(db, r_id, "garlic", 85, "g");
+        addRecipeIngredient(db, r_id, "crushed garlic", 85, "g");
         addRecipeIngredient(db, r_id, "tomato", 5, "piece");
         addRecipeIngredient(db, r_id, "tomato paste", 50, "g");
         addRecipeIngredient(db, r_id, "onion", 1, "piece");
@@ -590,12 +786,11 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, r_id, "sugar", 1, "tsp");
 
 
-
         // Recipe 15: Tin Fish Curry
 
         r_id = addRecipe(db,
                 "Tin Fish Curry",
-                "1. Cook onion, chilli, curry leaves and garlic until the onion is lightly caramelised.\n" +
+                "1. Cook onion, chilli, curry leaves and crushed garlic until the onion is lightly caramelised.\n" +
                         "2. Add turmeric and masala and cook for 2 to 3 minutes.\n" +
                         "3. Add tomatoes and sugar and simmer until thick.\n" +
                         "4. Gently add the tin fish and cook for 2 to 3 minutes.\n" +
@@ -607,11 +802,10 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, r_id, "green chilli", 3, "piece");
         addRecipeIngredient(db, r_id, "masala", 2, "tbsp");
         addRecipeIngredient(db, r_id, "turmeric", 0.5, "tsp");
-        addRecipeIngredient(db, r_id, "garlic", 1, "tbsp");
+        addRecipeIngredient(db, r_id, "crushed garlic", 15, "g");
         addRecipeIngredient(db, r_id, "curry leaves", 1, "sprig");
         addRecipeIngredient(db, r_id, "tomato", 4, "piece");
         addRecipeIngredient(db, r_id, "sugar", 0.5, "tsp");
-
 
 
         // Recipe 16: Mutton and Samp
@@ -650,7 +844,6 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, r_id, "samp and beans", 500, "g");
 
 
-
         // Recipe 17: Kichari
 
         r_id = addRecipe(db,
@@ -680,7 +873,6 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, r_id, "coriander", 2, "tbsp");
 
 
-
         // Recipe 18: Pumpkin Curry
 
         r_id = addRecipe(db,
@@ -703,7 +895,6 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, r_id, "dried chilli", 4, "piece");
         addRecipeIngredient(db, r_id, "sugar", 1, "tsp");
         addRecipeIngredient(db, r_id, "water", 0.25, "cup");
-
 
 
         // Recipe 19: Dhall Pita
@@ -738,12 +929,11 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         addRecipeIngredient(db, r_id, "dried chilli", 2, "piece");
 
 
-
         // Recipe 20: Mushroom and Broccoli Pasta
 
         r_id = addRecipe(db,
                 "Mushroom and Broccoli Pasta",
-                "1. Cook onion, garlic, chilli and thyme in a pot.\n" +
+                "1. Cook onion, crushed garlic, chilli and thyme in a pot.\n" +
                         "2. Add mushrooms and cook until soft.\n" +
                         "3. Add onion soup powder and milk and mix well.\n" +
                         "4. Add cream, pasta water and broccoli.\n" +
@@ -753,15 +943,16 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
 
         addRecipeIngredient(db, r_id, "pasta", 150, "g");
         addRecipeIngredient(db, r_id, "broccoli", 0.5, "head");
-        addRecipeIngredient(db, r_id, "mushrooms", 1, "punnet");
+        addRecipeIngredient(db, r_id, "mushrooms", 250, "g");
         addRecipeIngredient(db, r_id, "onion", 0.5, "piece");
         addRecipeIngredient(db, r_id, "red chilli", 1, "piece");
         addRecipeIngredient(db, r_id, "thyme", 3, "sprig");
-        addRecipeIngredient(db, r_id, "garlic", 1, "tsp");
+        addRecipeIngredient(db, r_id, "crushed garlic", 5, "g");
         addRecipeIngredient(db, r_id, "onion soup powder", 1, "packet");
         addRecipeIngredient(db, r_id, "milk", 0.5, "cup");
         addRecipeIngredient(db, r_id, "cream", 250, "ml");
     }
+
 
     // Gets all pantry items from the database
     public List<PantryItem> getAllPantryItems() {
@@ -805,6 +996,7 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         // Return all pantry items
         return p_items;
     }
+
 
     // Gets all ingredients needed for one recipe
     public List<RecipeIngredient> getRecipeIngredients(int r_id) {
@@ -858,6 +1050,7 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         return rIng_itemList;
     }
 
+
     // Gets all recipes from the database
     public List<Recipe> getAllRecipes() {
 
@@ -904,6 +1097,7 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         return r_itemList;
     }
 
+
     // Adds a new pantry item to the database
     public long addPantryItem(String pItem_name, double pItem_quantity,
                               String pItem_unit, String pItem_expiry_date) {
@@ -922,6 +1116,7 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         // Add the pantry item to the pantry table
         return db.insert(pantry_table, null, values);
     }
+
 
     // Updates an existing pantry item
     public int updatePantryItem(int pItem_id, String pItem_name,
@@ -948,6 +1143,7 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         );
     }
 
+
     // Deletes an existing pantry item
     public int deletePantryItem(int pItem_id) {
 
@@ -961,6 +1157,7 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(pItem_id)}
         );
     }
+
 
     // Updates the database when the version changes
     @Override

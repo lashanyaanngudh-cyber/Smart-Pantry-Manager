@@ -29,6 +29,9 @@ public class MainActivity extends Activity {
     // Button used to open the Add Ingredient screen
     private Button open_add_ing_buttonView;
 
+    // Button used to open the Suggested Recipes screen
+    private Button open_recipes_buttonView;
+
     // List that stores the pantry items
     private List<PantryItem> p_items;
 
@@ -53,10 +56,22 @@ public class MainActivity extends Activity {
         // Connect the Java button to the button in activity_main.xml
         open_add_ing_buttonView = findViewById(R.id.open_add_ing_button);
 
+        // Connect the Suggested Recipes button
+        open_recipes_buttonView = findViewById(R.id.open_recipes_button);
+
         // Open the Add Ingredient screen when the button is clicked
         open_add_ing_buttonView.setOnClickListener(v -> {
 
             Intent intent = new Intent(MainActivity.this, AddIngredientActivity.class);
+            startActivity(intent);
+        });
+
+        // Open the Suggested Recipes screen when the button is clicked
+        open_recipes_buttonView.setOnClickListener(v -> {
+
+            Intent intent = new Intent(MainActivity.this,
+                    SuggestedRecipesActivity.class);
+
             startActivity(intent);
         });
 

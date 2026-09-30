@@ -9,38 +9,62 @@ import java.util.List;
 
 public class RecipeMatcher {
 
-    // Checks if one required recipe ingredient is in the pantry
+
+    // Checks if one required recipe ingredient is available in the pantry
     public boolean checkIngredient(List<PantryItem> pantry_itemList,
                                    RecipeIngredient required_ing) {
 
-        // The ingredient has not been found yet
+        // Water is assumed to always be available
+        // so it does not need to be stored in the pantry
+        if (required_ing.getRIng_name()
+                .trim()
+                .equalsIgnoreCase("water")) {
+
+            return true;
+        }
+
+
         boolean ing_found = false;
 
-        // Go through each item in the pantry
+
+        // Go through all the ingredients in the pantry
         for (PantryItem pantry_item : pantry_itemList) {
 
-            // Check if the ingredient names match
+            // Check if the pantry ingredient name matches
+            // the ingredient required by the recipe
             if (ingredientNamesMatch(
                     pantry_item.getPItem_name(),
                     required_ing.getRIng_name())) {
 
-                // Get the pantry quantity and unit
-                double pantry_itemQuantity = pantry_item.getPItem_quantity();
-                String pantry_itemUnit = pantry_item.getPItem_unit();
 
-                // Get the quantity and unit required by the recipe
-                double recIng_reqQuantity = required_ing.getRIng_quantity();
-                String recIng_reqUnit = required_ing.getRIng_unit();
+                double pantry_itemQuantity =
+                        pantry_item.getPItem_quantity();
 
-                // Convert the quantities into standard units
-                pantry_itemQuantity = convertQuantity(
-                        pantry_itemQuantity, pantry_itemUnit);
+                String pantry_itemUnit =
+                        pantry_item.getPItem_unit();
 
-                recIng_reqQuantity = convertQuantity(
-                        recIng_reqQuantity, recIng_reqUnit);
+                double recIng_reqQuantity =
+                        required_ing.getRIng_quantity();
 
-                // Check if the units are compatible
-                if (unitsMatch(pantry_itemUnit, recIng_reqUnit)) {
+                String recIng_reqUnit =
+                        required_ing.getRIng_unit();
+
+
+                // Check if the units can be directly compared
+                if (unitsMatch(
+                        pantry_itemUnit,
+                        recIng_reqUnit)) {
+
+
+                    // Convert both quantities into common units
+                    pantry_itemQuantity = convertQuantity(
+                            pantry_itemQuantity,
+                            pantry_itemUnit);
+
+                    recIng_reqQuantity = convertQuantity(
+                            recIng_reqQuantity,
+                            recIng_reqUnit);
+
 
                     // Check if there is enough of the ingredient
                     if (pantry_itemQuantity >= recIng_reqQuantity) {
@@ -49,58 +73,268 @@ public class RecipeMatcher {
                         break;
                     }
                 }
+
+
+                // Check dry ingredients stored in grams or kilograms
+                // when the recipe uses tbsp, tsp or cup
+                else if ((pantry_itemUnit.equalsIgnoreCase("g") ||
+                        pantry_itemUnit.equalsIgnoreCase("kg")) &&
+
+                        (recIng_reqUnit.equalsIgnoreCase("tbsp") ||
+                                recIng_reqUnit.equalsIgnoreCase("tsp") ||
+                                recIng_reqUnit.equalsIgnoreCase("cup"))) {
+
+
+                    // Convert the pantry amount to grams
+                    pantry_itemQuantity = convertQuantity(
+                            pantry_itemQuantity,
+                            pantry_itemUnit);
+
+
+                    // Convert the recipe amount to grams
+                    recIng_reqQuantity = convertDryIngredient(
+                            recIng_reqQuantity,
+                            recIng_reqUnit,
+                            required_ing.getRIng_name());
+
+
+                    // -1 means that there is no conversion
+                    // available for that ingredient
+                    if (recIng_reqQuantity != -1) {
+
+                        // Check if enough is available
+                        if (pantry_itemQuantity >= recIng_reqQuantity) {
+
+                            ing_found = true;
+                            break;
+                        }
+                    }
+                }
             }
         }
 
-        // Return whether the ingredient was found
+
         return ing_found;
     }
 
 
-    // Converts units into smaller standard units
+    // Converts compatible measurements into common smaller units
     private double convertQuantity(double converted_quantity,
                                    String quantity_unit) {
 
-        // Convert litres to millilitres
+        // Litres to millilitres
         if (quantity_unit.equalsIgnoreCase("L")) {
+
             converted_quantity = converted_quantity * 1000;
         }
 
-        // Convert cups to millilitres
+        // Cups to millilitres
         else if (quantity_unit.equalsIgnoreCase("cup")) {
+
             converted_quantity = converted_quantity * 250;
         }
 
-        // Convert tablespoons to millilitres
+        // Tablespoons to millilitres
         else if (quantity_unit.equalsIgnoreCase("tbsp")) {
+
             converted_quantity = converted_quantity * 15;
         }
 
-        // Convert teaspoons to millilitres
+        // Teaspoons to millilitres
         else if (quantity_unit.equalsIgnoreCase("tsp")) {
+
             converted_quantity = converted_quantity * 5;
         }
 
-        // Convert kilograms to grams
+        // Kilograms to grams
         else if (quantity_unit.equalsIgnoreCase("kg")) {
+
             converted_quantity = converted_quantity * 1000;
         }
 
-        // Return the converted quantity
+
         return converted_quantity;
     }
 
 
-    // Checks if two units can be compared
+    // Converts some dry ingredients from recipe measurements
+    // such as tsp, tbsp and cup into grams
+    private double convertDryIngredient(double dry_quantity,
+                                        String dry_unit,
+                                        String dry_ingName) {
+
+        dry_ingName = dry_ingName.trim().toLowerCase();
+
+
+        // Tablespoon conversions
+        if (dry_unit.equalsIgnoreCase("tbsp")) {
+
+            if (dry_ingName.equals("flour")) {
+
+                return dry_quantity * 8;
+            }
+
+            else if (dry_ingName.equals("masala")) {
+
+                return dry_quantity * 8;
+            }
+
+            else if (dry_ingName.equals("garam masala")) {
+
+                return dry_quantity * 8;
+            }
+
+            else if (dry_ingName.equals("butter")) {
+
+                return dry_quantity * 14;
+            }
+
+            else if (dry_ingName.equals("sugar")) {
+
+                return dry_quantity * 12;
+            }
+
+            else if (dry_ingName.equals("salt")) {
+
+                return dry_quantity * 18;
+            }
+
+            else if (dry_ingName.equals("parsley")) {
+
+                return dry_quantity * 4;
+            }
+
+            else if (dry_ingName.equals("coriander")) {
+
+                return dry_quantity * 4;
+            }
+        }
+
+
+        // Teaspoon conversions
+        else if (dry_unit.equalsIgnoreCase("tsp")) {
+
+            if (dry_ingName.equals("turmeric")) {
+
+                return dry_quantity * 3;
+            }
+
+            else if (dry_ingName.equals("chilli powder")) {
+
+                return dry_quantity * 3;
+            }
+
+            else if (dry_ingName.equals("fennel seeds")) {
+
+                return dry_quantity * 2;
+            }
+
+            else if (dry_ingName.equals("coriander cumin powder")) {
+
+                return dry_quantity * 3;
+            }
+
+            else if (dry_ingName.equals("nutmeg")) {
+
+                return dry_quantity * 2;
+            }
+
+            else if (dry_ingName.equals("thyme")) {
+
+                return dry_quantity * 1;
+            }
+
+            else if (dry_ingName.equals("masala")) {
+
+                return dry_quantity * 3;
+            }
+
+            else if (dry_ingName.equals("garam masala")) {
+
+                return dry_quantity * 3;
+            }
+
+            else if (dry_ingName.equals("cumin seeds")) {
+
+                return dry_quantity * 2;
+            }
+
+            else if (dry_ingName.equals("mustard seeds")) {
+
+                return dry_quantity * 3;
+            }
+
+            else if (dry_ingName.equals("salt")) {
+
+                return dry_quantity * 6;
+            }
+
+            else if (dry_ingName.equals("sugar")) {
+
+                return dry_quantity * 4;
+            }
+
+            else if (dry_ingName.equals("black pepper")) {
+
+                return dry_quantity * 2;
+            }
+
+            else if (dry_ingName.equals("aromat")) {
+
+                return dry_quantity * 5;
+            }
+        }
+
+
+        // Cup conversions
+        else if (dry_unit.equalsIgnoreCase("cup")) {
+
+            if (dry_ingName.equals("spinach")) {
+
+                return dry_quantity * 30;
+            }
+
+            else if (dry_ingName.equals("flour")) {
+
+                return dry_quantity * 125;
+            }
+
+            else if (dry_ingName.equals("sugar")) {
+
+                return dry_quantity * 200;
+            }
+
+            else if (dry_ingName.equals("cheese")) {
+
+                return dry_quantity * 100;
+            }
+
+            else if (dry_ingName.equals("cheddar cheese")) {
+
+                return dry_quantity * 100;
+            }
+        }
+
+
+        // Return -1 when there is no conversion
+        return -1;
+    }
+
+
+    // Checks whether two measurement units
+    // can be directly compared
     private boolean unitsMatch(String pantry_unit,
                                String recIng_unit) {
 
-        // Same units are compatible
+
+        // Exact same unit
         if (pantry_unit.equalsIgnoreCase(recIng_unit)) {
+
             return true;
         }
 
-        // Check if both units are volume units
+
+        // Liquid measurements can be converted
         if ((pantry_unit.equalsIgnoreCase("L") ||
                 pantry_unit.equalsIgnoreCase("ml") ||
                 pantry_unit.equalsIgnoreCase("cup") ||
@@ -116,115 +350,192 @@ public class RecipeMatcher {
             return true;
         }
 
-        // Kilograms and grams are compatible
+
+        // Weight measurements can be converted
         if ((pantry_unit.equalsIgnoreCase("kg") &&
                 recIng_unit.equalsIgnoreCase("g")) ||
+
                 (pantry_unit.equalsIgnoreCase("g") &&
                         recIng_unit.equalsIgnoreCase("kg"))) {
 
             return true;
         }
 
-        // Units are not compatible
+
         return false;
     }
 
 
-    // Checks if two ingredient names match
+    // Checks whether the pantry ingredient name
+    // matches the recipe ingredient name
     private boolean ingredientNamesMatch(String pantry_ingName,
                                          String recIng_reqName) {
 
-        // Remove spaces and change both names to lowercase
-        pantry_ingName = pantry_ingName.trim().toLowerCase();
-        recIng_reqName = recIng_reqName.trim().toLowerCase();
 
-        // Check if the names are already the same
+        pantry_ingName =
+                pantry_ingName.trim().toLowerCase();
+
+        recIng_reqName =
+                recIng_reqName.trim().toLowerCase();
+
+
+        // Exact ingredient name
         if (pantry_ingName.equals(recIng_reqName)) {
+
             return true;
         }
 
-        // Check simple plural words ending in s
+
+        // Check simple singular and plural names
         if (pantry_ingName.endsWith("s") &&
                 pantry_ingName.substring(
-                                0, pantry_ingName.length() - 1)
+                                0,
+                                pantry_ingName.length() - 1)
                         .equals(recIng_reqName)) {
 
             return true;
         }
+
 
         if (recIng_reqName.endsWith("s") &&
                 recIng_reqName.substring(
-                                0, recIng_reqName.length() - 1)
+                                0,
+                                recIng_reqName.length() - 1)
                         .equals(pantry_ingName)) {
 
             return true;
         }
 
-        // Check words such as tomato and tomatoes
+
+        // Check words ending in "es"
         if (pantry_ingName.endsWith("es") &&
                 pantry_ingName.substring(
-                                0, pantry_ingName.length() - 2)
+                                0,
+                                pantry_ingName.length() - 2)
                         .equals(recIng_reqName)) {
 
             return true;
         }
 
+
         if (recIng_reqName.endsWith("es") &&
                 recIng_reqName.substring(
-                                0, recIng_reqName.length() - 2)
+                                0,
+                                recIng_reqName.length() - 2)
                         .equals(pantry_ingName)) {
 
             return true;
         }
 
-        // The ingredient names do not match
+
+        // General fish can satisfy a specific type of fish
+        // Example: Fish can match Red Fish
+        if (pantry_ingName.equals("fish") &&
+                recIng_reqName.endsWith(" fish")) {
+
+            return true;
+        }
+
+
+        // General mushrooms can satisfy a specific
+        // type of mushroom
+        // Example: Mushrooms can match Button Mushrooms
+        if (pantry_ingName.equals("mushrooms") &&
+                recIng_reqName.endsWith(" mushrooms")) {
+
+            return true;
+        }
+
+
+        if (pantry_ingName.equals("mushroom") &&
+                recIng_reqName.endsWith(" mushrooms")) {
+
+            return true;
+        }
+
+
+        // Garlic and crushed garlic are intentionally
+        // NOT matched with each other.
+        //
+        // Garlic is used when the recipe requires cloves.
+        // Crushed Garlic is used when the recipe requires grams.
+
+
         return false;
     }
 
 
-    // Checks if every ingredient needed for a recipe is in the pantry
+    // Checks whether every ingredient required
+    // by a recipe is available
     public boolean checkRecipe(Recipe recipe_item,
                                List<PantryItem> pantry_itemList) {
 
-        // Assume the recipe can be made
+
         boolean recipe_match = true;
 
-        // Go through every ingredient required by the recipe
-        for (RecipeIngredient required_ing : recipe_item.getR_ingList()) {
 
-            // Check if the required ingredient is available
-            if (!checkIngredient(pantry_itemList, required_ing)) {
+        // Check every ingredient required by the recipe
+        for (RecipeIngredient required_ing :
+                recipe_item.getR_ingList()) {
 
-                // One ingredient failed, so the recipe cannot be made
+
+            // If even one ingredient is unavailable,
+            // the recipe must not be suggested
+            if (!checkIngredient(
+                    pantry_itemList,
+                    required_ing)) {
+
+
+                // Used while testing to show why
+                // the recipe did not match
+                System.out.println(
+                        "RECIPE FAILED: "
+                                + recipe_item.getR_name()
+                                + " - Missing: "
+                                + required_ing.getRIng_name()
+                                + " "
+                                + required_ing.getRIng_quantity()
+                                + " "
+                                + required_ing.getRIng_unit()
+                );
+
+
                 recipe_match = false;
                 break;
             }
         }
 
-        // Return whether the whole recipe can be made
+
         return recipe_match;
     }
 
 
-    // Finds all recipes that can be made using the pantry items
-    public List<Recipe> getMatchedRecipes(List<Recipe> r_itemList,
-                                          List<PantryItem> pantry_itemList) {
+    // Returns only recipes where every required
+    // ingredient is available
+    public List<Recipe> getMatchedRecipes(
+            List<Recipe> r_itemList,
+            List<PantryItem> pantry_itemList) {
 
-        // List that stores only the recipes that can be made
-        List<Recipe> matched_rList = new ArrayList<>();
 
-        // Go through every recipe
+        List<Recipe> matched_rList =
+                new ArrayList<>();
+
+
+        // Check each recipe
         for (Recipe recipe_item : r_itemList) {
 
-            // Check if all ingredients for the recipe are available
-            if (checkRecipe(recipe_item, pantry_itemList)) {
 
-                // Add the recipe if all ingredients passed
+            if (checkRecipe(
+                    recipe_item,
+                    pantry_itemList)) {
+
+
+                // Only add recipes that fully match
                 matched_rList.add(recipe_item);
             }
         }
 
-        // Return only the recipes that can be made
+
         return matched_rList;
     }
 }
