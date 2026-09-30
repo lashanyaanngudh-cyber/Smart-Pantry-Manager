@@ -72,4 +72,21 @@ public class MainActivity extends Activity {
         // Connect the adapter to the RecyclerView
         pantry_recyclerView.setAdapter(pantry_adapter);
     }
+
+    // Refresh the pantry list when returning to this screen
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Only refresh if the adapter has already been created
+        if (pantry_adapter != null) {
+
+            // Get the updated pantry items from the database
+            p_items.clear();
+            p_items.addAll(dbHelper.getAllPantryItems());
+
+            // Tell the RecyclerView that the information has changed
+            pantry_adapter.notifyDataSetChanged();
+        }
+    }
 }

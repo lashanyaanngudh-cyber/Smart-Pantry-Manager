@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.view.View;
+import android.content.Intent;
 
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -23,8 +25,17 @@ public class AddIngredientActivity extends Activity {
     // Button used to add the ingredient
     Button add_ing_buttonView;
 
+    // Button used to open the Delete Ingredient screen
+    Button open_delete_ing_buttonView;
+
+    // Button used to return to the pantry screen
+    Button back_pantry_buttonView;
+
     // Used to access the pantry database
     PantryDatabaseHelper pantry_db;
+
+    // Stores the ID of the pantry item being edited
+    int pItem_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +51,74 @@ public class AddIngredientActivity extends Activity {
         // Connect the Java button to the XML button
         add_ing_buttonView = findViewById(R.id.add_ing_button);
 
+        // Connect the Java button to the Delete Ingredient button
+        open_delete_ing_buttonView = findViewById(R.id.open_delete_ing_button);
+
+        // Connect the Java button to the Back to Pantry button
+        back_pantry_buttonView = findViewById(R.id.back_pantry_button);
+
         // Connect to the pantry database
         pantry_db = new PantryDatabaseHelper(this);
 
-        // Add the ingredient when the button is clicked
+        // Check if an existing pantry item was selected
+        if (getIntent().hasExtra("pItem_id")) {
+
+            // Get the pantry item ID
+            pItem_id = getIntent().getIntExtra("pItem_id", -1);
+
+            // Change the button text because an ingredient is being edited
+            add_ing_buttonView.setText("UPDATE INGREDIENT");
+
+            // Show the Delete Ingredient button when editing
+            open_delete_ing_buttonView.setVisibility(View.VISIBLE);
+
+            // Show the Back to Pantry button when editing
+            back_pantry_buttonView.setVisibility(View.VISIBLE);
+
+            // Display the existing pantry item name
+            ing_nameView.setText(
+                    getIntent().getStringExtra("pItem_name")
+            );
+
+            // Display the existing pantry item quantity
+            ing_quantityView.setText(
+                    String.valueOf(
+                            getIntent().getDoubleExtra("pItem_quantity", 0)
+                    )
+            );
+
+            // Display the existing pantry item unit
+            ing_unitView.setText(
+                    getIntent().getStringExtra("pItem_unit")
+            );
+
+            // Display the existing pantry item expiry date
+            ing_expirydateView.setText(
+                    getIntent().getStringExtra("pItem_expiry_date")
+            );
+        }
+
+        // Open the Delete Ingredient screen when the button is clicked
+        open_delete_ing_buttonView.setOnClickListener(v -> {
+
+            Intent intent = new Intent(
+                    AddIngredientActivity.this,
+                    DeleteIngredientActivity.class
+            );
+
+            // Send the pantry item ID to the Delete Ingredient screen
+            intent.putExtra("pItem_id", pItem_id);
+
+            // Send the pantry item name to the Delete Ingredient screen
+            intent.putExtra(
+                    "pItem_name",
+                    ing_nameView.getText().toString().trim()
+            );
+
+            startActivity(intent);
+        });
+
+        // Add or update the ingredient when the button is clicked
         add_ing_buttonView.setOnClickListener(v -> {
 
             // Get the information entered by the user
@@ -52,12 +127,12 @@ public class AddIngredientActivity extends Activity {
             String pItem_unit = ing_unitView.getText().toString().trim();
             String pItem_expiry_date = ing_expirydateView.getText().toString().trim();
 
-            // Check that all fields have been completed
+            // Check that the required fields have been completed
             if (pItem_name.isEmpty() || quantity_text.isEmpty()
-                    || pItem_unit.isEmpty() || pItem_expiry_date.isEmpty()) {
+                    || pItem_unit.isEmpty()) {
 
                 Toast.makeText(this,
-                        "Please complete all fields",
+                        "Please complete all required fields",
                         Toast.LENGTH_SHORT).show();
 
                 return;
@@ -66,31 +141,69 @@ public class AddIngredientActivity extends Activity {
             // Convert the quantity from text to a number
             double pItem_quantity = Double.parseDouble(quantity_text);
 
-            // Add the ingredient to the database
-            long result = pantry_db.addPantryItem(
-                    pItem_name,
-                    pItem_quantity,
-                    pItem_unit,
-                    pItem_expiry_date
-            );
+            // Check if an existing pantry item is being edited
+            if (getIntent().hasExtra("pItem_id")) {
 
-            // Check if the ingredient was added successfully
-            // Check if the ingredient was added successfully
-            if (result != -1) {
+                // Update the existing pantry item
+                int result = pantry_db.updatePantryItem(
+                        pItem_id,
+                        pItem_name,
+                        pItem_quantity,
+                        pItem_unit,
+                        pItem_expiry_date
+                );
 
-                Toast.makeText(this,
-                        "Ingredient added successfully",
-                        Toast.LENGTH_SHORT).show();
+                // Check if the ingredient was updated successfully
+                if (result > 0) {
 
-                // Return to the pantry list
-                finish();
+                    Toast.makeText(this,
+                            "Ingredient updated successfully",
+                            Toast.LENGTH_SHORT).show();
 
-            } else {
+                    // Return to the pantry list
+                    finish();
 
-                Toast.makeText(this,
-                        "Ingredient could not be added",
-                        Toast.LENGTH_SHORT).show();
+                } else {
+
+                    Toast.makeText(this,
+                            "Ingredient could not be updated",
+                            Toast.LENGTH_SHORT).show();
+                }
+
             }
+            else {
+
+                // Add a new pantry item
+                long result = pantry_db.addPantryItem(
+                        pItem_name,
+                        pItem_quantity,
+                        pItem_unit,
+                        pItem_expiry_date
+                );
+
+                // Check if the ingredient was added successfully
+                if (result != -1) {
+
+                    Toast.makeText(this,
+                            "Ingredient added successfully",
+                            Toast.LENGTH_SHORT).show();
+
+                    // Return to the pantry list
+                    finish();
+
+                } else {
+
+                    Toast.makeText(this,
+                            "Ingredient could not be added",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        });
+
+        // Return to the pantry screen without making changes
+        back_pantry_buttonView.setOnClickListener(v -> {
+            finish();
         });
 
         // Add padding so the screen does not overlap the system bars

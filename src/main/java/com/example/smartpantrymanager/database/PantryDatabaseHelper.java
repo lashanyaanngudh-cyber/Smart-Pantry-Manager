@@ -823,6 +823,45 @@ public class PantryDatabaseHelper extends SQLiteOpenHelper {
         return db.insert(pantry_table, null, values);
     }
 
+    // Updates an existing pantry item
+    public int updatePantryItem(int pItem_id, String pItem_name,
+                                double pItem_quantity, String pItem_unit,
+                                String pItem_expiry_date) {
+
+        // Open the database for writing
+        SQLiteDatabase db = getWritableDatabase();
+
+        // Store the updated pantry item information
+        ContentValues values = new ContentValues();
+
+        values.put(pantry_name, pItem_name);
+        values.put(pantry_quantity, pItem_quantity);
+        values.put(pantry_unit, pItem_unit);
+        values.put(pantry_expiry_date, pItem_expiry_date);
+
+        // Update the pantry item with the matching ID
+        return db.update(
+                pantry_table,
+                values,
+                pantry_id + " = ?",
+                new String[]{String.valueOf(pItem_id)}
+        );
+    }
+
+    // Deletes an existing pantry item
+    public int deletePantryItem(int pItem_id) {
+
+        // Open the database for writing
+        SQLiteDatabase db = getWritableDatabase();
+
+        // Delete the pantry item with the matching ID
+        return db.delete(
+                pantry_table,
+                pantry_id + " = ?",
+                new String[]{String.valueOf(pItem_id)}
+        );
+    }
+
     // Updates the database when the version changes
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

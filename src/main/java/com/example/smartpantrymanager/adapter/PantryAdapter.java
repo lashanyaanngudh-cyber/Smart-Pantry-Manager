@@ -1,16 +1,25 @@
 package com.example.smartpantrymanager.adapter;
 
+// Used to open the Edit Ingredient screen
+import android.content.Context;
+import android.content.Intent;
+
+// Used for the RecyclerView item layout
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+// RecyclerView imports
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+// App classes
+import com.example.smartpantrymanager.AddIngredientActivity;
 import com.example.smartpantrymanager.R;
 import com.example.smartpantrymanager.model.PantryItem;
 
+// Used to store the pantry items
 import java.util.List;
 
 public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryViewHolder> {
@@ -82,6 +91,25 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
         pantry_holder.item_expirydateView.setText(
                 p_item.getPItem_expiry_date()
         );
+
+        // Open the ingredient screen when a pantry item is clicked
+        pantry_holder.itemView.setOnClickListener(v -> {
+
+            // Get the current screen
+            Context context = v.getContext();
+
+            // Open the Add Ingredient screen
+            Intent intent = new Intent(context, AddIngredientActivity.class);
+
+            // Send the pantry item information to the next screen
+            intent.putExtra("pItem_id", p_item.getPItem_id());
+            intent.putExtra("pItem_name", p_item.getPItem_name());
+            intent.putExtra("pItem_quantity", p_item.getPItem_quantity());
+            intent.putExtra("pItem_unit", p_item.getPItem_unit());
+            intent.putExtra("pItem_expiry_date", p_item.getPItem_expiry_date());
+
+            context.startActivity(intent);
+        });
     }
 
 
